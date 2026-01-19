@@ -1,0 +1,89 @@
+<div class="container">
+    <h2><span class="fa fa-book"></span> Available Courses</h2>
+
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <span class="fa fa-filter"></span> Filter Courses
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Department</label>
+                    <select class="form-select" ng-model="$ctrl.filterDepartment" ng-change="$ctrl.filterCourses()">
+                        <option value="">All Departments</option>
+                        <option ng-repeat="dept in $ctrl.departments" value="{{dept}}">{{dept}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Day</label>
+                    <select class="form-select" ng-model="$ctrl.filterDay" ng-change="$ctrl.filterCourses()">
+                        <option value="">All Days</option>
+                        <option ng-repeat="day in $ctrl.days" value="{{day}}">{{day}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-outline-secondary" ng-click="$ctrl.clearFilters()">
+                        <span class="fa fa-times"></span> Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.loading" class="text-center">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+        <p>Loading courses...</p>
+    </div>
+
+    <div ng-if="$ctrl.error" class="alert alert-danger">
+        {{$ctrl.error}}
+    </div>
+
+    <div ng-if="!$ctrl.loading && $ctrl.courses.length === 0" class="alert alert-info">
+        No courses found matching your criteria.
+    </div>
+
+    <div class="row" ng-if="!$ctrl.loading && $ctrl.courses.length > 0">
+        <div class="col-md-6 col-lg-4 mb-4" ng-repeat="course in $ctrl.courses">
+            <div class="card h-100">
+                <div class="card-header" ng-class="{
+                    'bg-primary': course.department === 'Computer Science',
+                    'bg-success': course.department === 'Mathematics',
+                    'bg-info': course.department === 'Physics',
+                    'bg-warning': course.department === 'Chemistry',
+                    'bg-danger': course.department === 'Biology',
+                    'bg-secondary': !['Computer Science','Mathematics','Physics','Chemistry','Biology'].includes(course.department)
+                }" style="color: white;">
+                    <strong>{{course.code}}</strong>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{course.title}}</h5>
+                    <p class="card-text text-muted">{{course.description}}</p>
+                    <ul class="list-unstyled">
+                        <li><span class="fa fa-user"></span> <strong>Professor:</strong> {{course.professorName}}</li>
+                        <li><span class="fa fa-clock-o"></span> <strong>Time:</strong> {{course.timeSlot}}</li>
+                        <li><span class="fa fa-building"></span> <strong>Room:</strong> {{course.room}}</li>
+                        <li><span class="fa fa-star"></span> <strong>Credits:</strong> {{course.credits}}</li>
+                        <li><span class="fa fa-users"></span> <strong>Capacity:</strong> {{course.enrolled}}/{{course.capacity}}</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar"
+                             ng-style="{width: (course.enrolled / course.capacity * 100) + '%'}"
+                             ng-class="{'bg-danger': course.enrolled >= course.capacity, 'bg-warning': course.enrolled >= course.capacity * 0.8, 'bg-success': course.enrolled < course.capacity * 0.8}">
+                            {{course.enrolled}}/{{course.capacity}}
+                        </div>
+                    </div>
+                    <small class="text-muted" ng-if="course.enrolled >= course.capacity">
+                        <span class="fa fa-exclamation-circle text-danger"></span> Course Full
+                    </small>
+                    <small class="text-muted" ng-if="course.enrolled < course.capacity">
+                        {{course.capacity - course.enrolled}} seats available
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

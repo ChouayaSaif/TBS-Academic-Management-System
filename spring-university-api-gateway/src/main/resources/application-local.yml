@@ -1,0 +1,23 @@
+# Local Development Profile - No external dependencies required
+spring:
+  config:
+    import: ""
+  cloud:
+    discovery:
+      enabled: false
+    loadbalancer:
+      enabled: false
+    gateway:
+      enabled: false
+
+server:
+  port: 8090
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.samples.university: DEBUG

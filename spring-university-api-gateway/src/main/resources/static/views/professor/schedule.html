@@ -1,0 +1,198 @@
+<div class="dashboard-container" style="background: #f5f7fa; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <!-- Navigation Bar -->
+    <nav style="background: white; border-bottom: 1px solid #e0e0e0; padding: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+            <h2 style="color: #f39c12; margin: 0; font-size: 24px;">🎓 TBS University - Professor Portal</h2>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <a ui-sref="professor.dashboard" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Dashboard</a>
+                <a ui-sref="professor.courses" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">My Courses</a>
+                <a ui-sref="professor.schedule" style="color: #f39c12; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px; border-bottom: 3px solid #f39c12;">Schedule</a>
+                <a ui-sref="professor.profile" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Profile</a>
+                <button ng-click="logout()" style="background: #e74c3c; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 30px 20px;">
+        <h2 style="color: #333; margin-bottom: 20px;">Teaching Schedule</h2>
+
+        <div style="background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 30px; overflow-x: auto;">
+
+            <div ng-if="courses.length === 0" style="text-align: center; padding: 30px; color: #666;">
+                <p>No courses assigned to display schedule.</p>
+            </div>
+
+            <div ng-if="courses.length > 0">
+                <!-- Weekly Calendar View -->
+                <div style="display: grid; grid-template-columns: 100px repeat(5, 1fr); border: 1px solid #ddd; background: #fff;">
+                    <!-- Header -->
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-weight: 600; text-align: center;">Time</div>
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-weight: 600; text-align: center;">Monday</div>
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-weight: 600; text-align: center;">Tuesday</div>
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-weight: 600; text-align: center;">Wednesday</div>
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; font-weight: 600; text-align: center;">Thursday</div>
+                    <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #ddd; font-weight: 600; text-align: center;">Friday</div>
+
+                    <!-- Time Slots (Simplified simulation) -->
+                    <!-- 9:00 -->
+                    <div style="padding: 20px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; text-align: center; color: #666; font-size: 13px;">09:00 - 10:30</div>
+
+                    <!-- Mon 9:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Mon') && c.schedule.includes('09:00')"
+                             style="background: #ffeeba; color: #856404; padding: 10px; border-radius: 4px; border-left: 3px solid #856404; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Tue 9:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Tue') && c.schedule.includes('09:00')"
+                             style="background: #ffeeba; color: #856404; padding: 10px; border-radius: 4px; border-left: 3px solid #856404; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Wed 9:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Wed') && c.schedule.includes('09:00')"
+                             style="background: #ffeeba; color: #856404; padding: 10px; border-radius: 4px; border-left: 3px solid #856404; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Thu 9:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Thu') && c.schedule.includes('09:00')"
+                             style="background: #ffeeba; color: #856404; padding: 10px; border-radius: 4px; border-left: 3px solid #856404; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Fri 9:00 -->
+                    <div style="border-bottom: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Fri') && c.schedule.includes('09:00')"
+                             style="background: #ffeeba; color: #856404; padding: 10px; border-radius: 4px; border-left: 3px solid #856404; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+
+                    <!-- 11:00 -->
+                    <div style="padding: 20px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; text-align: center; color: #666; font-size: 13px;">11:00 - 12:30</div>
+
+                     <!-- Mon 11:00 -->
+                     <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Mon') && c.schedule.includes('11:00')"
+                             style="background: #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; border-left: 3px solid #155724; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Tue 11:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Tue') && c.schedule.includes('11:00')"
+                             style="background: #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; border-left: 3px solid #155724; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Wed 11:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Wed') && c.schedule.includes('11:00')"
+                             style="background: #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; border-left: 3px solid #155724; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Thu 11:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Thu') && c.schedule.includes('11:00')"
+                             style="background: #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; border-left: 3px solid #155724; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Fri 11:00 -->
+                    <div style="border-bottom: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Fri') && c.schedule.includes('11:00')"
+                             style="background: #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; border-left: 3px solid #155724; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+
+
+                    <!-- 14:00 -->
+                    <div style="padding: 20px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; text-align: center; color: #666; font-size: 13px;">14:00 - 15:30</div>
+                     <!-- Mon 14:00 -->
+                     <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Mon') && c.schedule.includes('14:00')"
+                             style="background: #b8daff; color: #004085; padding: 10px; border-radius: 4px; border-left: 3px solid #004085; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Tue 14:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Tue') && c.schedule.includes('14:00')"
+                             style="background: #b8daff; color: #004085; padding: 10px; border-radius: 4px; border-left: 3px solid #004085; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Wed 14:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Wed') && c.schedule.includes('14:00')"
+                             style="background: #b8daff; color: #004085; padding: 10px; border-radius: 4px; border-left: 3px solid #004085; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Thu 14:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Thu') && c.schedule.includes('14:00')"
+                             style="background: #b8daff; color: #004085; padding: 10px; border-radius: 4px; border-left: 3px solid #004085; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Fri 14:00 -->
+                    <div style="border-bottom: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Fri') && c.schedule.includes('14:00')"
+                             style="background: #b8daff; color: #004085; padding: 10px; border-radius: 4px; border-left: 3px solid #004085; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+
+
+                    <!-- 16:00 -->
+                    <div style="padding: 20px 10px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; text-align: center; color: #666; font-size: 13px;">16:00 - 17:30</div>
+                     <!-- Mon 16:00 -->
+                     <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Mon') && c.schedule.includes('16:00')"
+                             style="background: #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; border-left: 3px solid #721c24; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Tue 16:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Tue') && c.schedule.includes('16:00')"
+                             style="background: #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; border-left: 3px solid #721c24; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Wed 16:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Wed') && c.schedule.includes('16:00')"
+                             style="background: #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; border-left: 3px solid #721c24; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Thu 16:00 -->
+                    <div style="border-bottom: 1px solid #eee; border-right: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Thu') && c.schedule.includes('16:00')"
+                             style="background: #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; border-left: 3px solid #721c24; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+                    <!-- Fri 16:00 -->
+                    <div style="border-bottom: 1px solid #eee; padding: 5px;">
+                        <div ng-repeat="c in courses" ng-if="c.schedule.includes('Fri') && c.schedule.includes('16:00')"
+                             style="background: #f5c6cb; color: #721c24; padding: 10px; border-radius: 4px; border-left: 3px solid #721c24; font-size: 13px;">
+                            <strong>{{c.code}}</strong><br>{{c.room}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

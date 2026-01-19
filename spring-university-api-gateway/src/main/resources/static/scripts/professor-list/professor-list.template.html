@@ -1,0 +1,57 @@
+<div class="container">
+    <h2><span class="fa fa-users"></span> Our Professors</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label class="form-label">Filter by Specialty</label>
+            <select class="form-select" ng-model="$ctrl.filterSpecialty">
+                <option value="">All Specialties</option>
+                <option ng-repeat="spec in $ctrl.getSpecialties()" value="{{spec}}">{{spec}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.loading" class="text-center">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+        <p>Loading professors...</p>
+    </div>
+
+    <div ng-if="$ctrl.error" class="alert alert-danger">
+        {{$ctrl.error}}
+    </div>
+
+    <div ng-if="!$ctrl.loading && $ctrl.professors.length === 0" class="alert alert-info">
+        No professors found.
+    </div>
+
+    <div class="row" ng-if="!$ctrl.loading && $ctrl.getFilteredProfessors().length > 0">
+        <div class="col-md-6 col-lg-4 mb-4" ng-repeat="professor in $ctrl.getFilteredProfessors()">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <span class="fa fa-user-circle fa-2x me-2"></span>
+                    <strong>{{professor.firstName}} {{professor.lastName}}</strong>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-3 text-muted">
+                        <span class="fa fa-graduation-cap"></span> Specialties
+                    </h6>
+                    <div ng-if="professor.specialties && professor.specialties.length > 0">
+                        <span class="badge bg-primary me-1 mb-1" ng-repeat="specialty in professor.specialties">
+                            {{specialty.name}}
+                        </span>
+                    </div>
+                    <div ng-if="!professor.specialties || professor.specialties.length === 0">
+                        <span class="text-muted">No specialties listed</span>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>
+                        <span class="fa fa-envelope"></span>
+                        {{professor.firstName.toLowerCase()}}.{{professor.lastName.toLowerCase()}}@university.edu
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

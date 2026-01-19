@@ -1,0 +1,139 @@
+                                     }">
+                                </div>
+                            </div>
+                            <small class="text-muted">Minimum: {{$ctrl.MIN_COURSES}} | Maximum: {{$ctrl.MAX_COURSES}}</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <h5>Total Credits: <span class="badge bg-info">{{$ctrl.getTotalCredits()}}</span></h5>
+                        </div>
+
+                        <hr>
+
+                        <div ng-if="$ctrl.selectedCourses.length > 0">
+                            <h6>Selected:</h6>
+                            <ul class="list-unstyled">
+                                <li ng-repeat="courseId in $ctrl.selectedCourses" class="mb-1">
+                                    <span class="badge bg-primary">{{$ctrl.getCourseById(courseId).code}}</span>
+                                    {{$ctrl.getCourseById(courseId).title}}
+                                    <button class="btn btn-sm btn-link text-danger p-0" ng-click="$ctrl.toggleCourse($ctrl.getCourseById(courseId))">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-if="$ctrl.selectedCourses.length === 0" class="alert alert-warning">
+                            <small>No courses selected yet. Click on courses to add them.</small>
+                        </div>
+
+                        <div ng-if="$ctrl.getSelectedCoursesCount() < $ctrl.MIN_COURSES" class="alert alert-warning">
+                            <small><span class="fa fa-exclamation-triangle"></span>
+                            Select at least {{$ctrl.MIN_COURSES - $ctrl.getSelectedCoursesCount()}} more course(s)</small>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success w-100 mb-2"
+                                ng-click="$ctrl.submitRegistration()"
+                                ng-disabled="!$ctrl.canSubmit() || $ctrl.loading">
+                            <span class="fa fa-check"></span> Confirm Registration
+                        </button>
+                        <button class="btn btn-secondary w-100" ng-click="$ctrl.cancel()">
+                            <span class="fa fa-times"></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div ng-if="$ctrl.loading" class="text-center my-4">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+        <p>Loading...</p>
+    </div>
+
+    <div ng-if="$ctrl.error" class="alert alert-danger">
+        <span class="fa fa-exclamation-triangle"></span> {{$ctrl.error}}
+    </div>
+
+    <div ng-if="$ctrl.success" class="alert alert-success">
+        <span class="fa fa-check-circle"></span> {{$ctrl.success}}
+    </div>
+
+    <div ng-if="!$ctrl.loading && $ctrl.student">
+        <h2><span class="fa fa-edit"></span> Course Registration</h2>
+        <p class="text-muted">Student: <strong>{{$ctrl.student.firstName}} {{$ctrl.student.lastName}}</strong> ({{$ctrl.student.studentId}})</p>
+
+        <div class="row">
+            <!-- Left: Course Selection -->
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <span><span class="fa fa-book"></span> Available Courses</span>
+                        <select class="form-select form-select-sm" style="width: auto;" ng-model="$ctrl.filterDepartment">
+                            <option value="">All Departments</option>
+                            <option ng-repeat="dept in $ctrl.departments" value="{{dept}}">{{dept}}</option>
+                        </select>
+                    </div>
+                    <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                        <div class="list-group">
+                            <div class="list-group-item list-group-item-action"
+                                 ng-repeat="course in $ctrl.getFilteredCourses()"
+                                 ng-class="{'list-group-item-success': $ctrl.isCourseSelected(course.id), 'disabled': course.enrolled >= course.capacity && !$ctrl.isCourseSelected(course.id)}"
+                                 ng-click="$ctrl.toggleCourse(course)"
+                                 style="cursor: pointer;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input me-2"
+                                                   ng-checked="$ctrl.isCourseSelected(course.id)"
+                                                   ng-disabled="course.enrolled >= course.capacity && !$ctrl.isCourseSelected(course.id)">
+                                            <h6 class="mb-0">
+                                                <span class="badge bg-secondary me-2">{{course.code}}</span>
+                                                {{course.title}}
+                                            </h6>
+                                        </div>
+                                        <small class="text-muted">
+                                            <span class="fa fa-user"></span> {{course.professorName}} |
+                                            <span class="fa fa-clock-o"></span> {{course.timeSlot}} |
+                                            <span class="fa fa-building"></span> {{course.room}}
+                                        </small>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-info">{{course.credits}} credits</span>
+                                        <br>
+                                        <small ng-class="{'text-danger': course.enrolled >= course.capacity, 'text-success': course.enrolled < course.capacity}">
+                                            {{course.enrolled}}/{{course.capacity}} enrolled
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Registration Summary -->
+            <div class="col-md-4">
+                <div class="card sticky-top" style="top: 20px;">
+                    <div class="card-header bg-success text-white">
+                        <span class="fa fa-list-check"></span> Registration Summary
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h5>Selected Courses:
+                                <span class="badge" ng-class="{
+                                    'bg-success': $ctrl.getSelectedCoursesCount() >= $ctrl.MIN_COURSES,
+                                    'bg-warning': $ctrl.getSelectedCoursesCount() < $ctrl.MIN_COURSES
+                                }">
+                                    {{$ctrl.getSelectedCoursesCount()}} / {{$ctrl.MAX_COURSES}}
+                                </span>
+                            </h5>
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar"
+                                     ng-style="{width: ($ctrl.getSelectedCoursesCount() / $ctrl.MAX_COURSES * 100) + '%'}"
+                                     ng-class="{
+                                         'bg-success': $ctrl.getSelectedCoursesCount() >= $ctrl.MIN_COURSES,
+                                         'bg-warning': $ctrl.getSelectedCoursesCount() < $ctrl.MIN_COURSES
+

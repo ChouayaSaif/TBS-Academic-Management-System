@@ -1,0 +1,69 @@
+<div class="login-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="login-card" style="background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); padding: 50px; max-width: 500px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #333; margin-bottom: 10px; font-size: 28px;">📝 Create Account</h1>
+            <p style="color: #666; font-size: 16px;">Join TBS University</p>
+        </div>
+
+        <form ng-submit="register()" style="margin-bottom: 20px;">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Full Name</label>
+                <input type="text" ng-model="formData.name" class="form-control" required placeholder="John Doe" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Email Address</label>
+                <input type="email" ng-model="formData.email" class="form-control" required placeholder="email@example.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Password</label>
+                <input type="password" ng-model="formData.password" class="form-control" required placeholder="Create a password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">I am a</label>
+                <select ng-model="formData.role" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option value="student">Student</option>
+                    <option value="professor">Professor</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;" ng-if="formData.role === 'student'">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Department</label>
+                <select ng-model="formData.department" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option ng-repeat="dept in departments" value="{{dept}}">{{dept}}</option>
+                </select>
+            </div>
+
+            <!-- Department for Professor too -->
+            <div class="form-group" style="margin-bottom: 20px;" ng-if="formData.role === 'professor'">
+                <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 600;">Department</label>
+                <select ng-model="formData.department" class="form-control" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <option ng-repeat="dept in departments" value="{{dept}}">{{dept}}</option>
+                </select>
+            </div>
+
+            <div ng-if="error" class="alert alert-danger" style="margin-bottom: 20px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px;">
+                {{error}}
+            </div>
+
+            <button type="submit" ng-disabled="loading" class="btn btn-success" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer;">
+                {{loading ? 'Creating Account...' : 'Sign Up'}}
+            </button>
+        </form>
+
+        <div style="border-bottom: 1px solid #ddd; padding-bottom: 20px; margin-bottom: 20px;">
+            <p style="text-align: center; color: #666; margin-bottom: 10px; font-size: 13px;">Or sign up with</p>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" ng-click="loginWithOAuth('google')" style="flex: 1; padding: 8px; background: white; color: #333; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; transition: all 0.3s;">Google</button>
+                <button type="button" ng-click="loginWithOAuth('github')" style="flex: 1; padding: 8px; background: white; color: #333; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; transition: all 0.3s;">GitHub</button>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <p style="color: #666;">Already have an account? <a href="javascript:void(0)" ng-click="goToLogin()" style="color: #667eea; text-decoration: none; font-weight: 600;">Sign in</a></p>
+        </div>
+    </div>
+</div>
+

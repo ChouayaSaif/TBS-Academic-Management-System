@@ -1,0 +1,78 @@
+<div class="login-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="login-card" style="background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); padding: 50px; max-width: 450px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="color: #333; margin-bottom: 10px; font-size: 32px;">🎓 TBS University</h1>
+            <p style="color: #666; font-size: 16px;">Academic Management System</p>
+        </div>
+
+        <form ng-submit="login()" style="margin-bottom: 30px;">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Email</label>
+                <input type="email" ng-model="credentials.email" class="form-control" required placeholder="Enter your email" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; color: #333; font-weight: 600;">Password</label>
+                <input type="password" ng-model="credentials.password" class="form-control" required placeholder="Enter your password" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+            </div>
+
+            <div ng-if="error" class="alert alert-danger" style="margin-bottom: 20px; padding: 12px; background: #f8d7da; color: #721c24; border-radius: 5px; border: 1px solid #f5c6cb;">
+                {{error}}
+            </div>
+
+            <button type="submit" ng-disabled="loading" class="btn btn-primary" style="width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+                {{loading ? 'Logging in...' : 'Sign In'}}
+            </button>
+        </form>
+
+        <!-- OAuth 2.0 Login Options -->
+        <div style="border-bottom: 1px solid #ddd; padding-bottom: 30px; margin-bottom: 30px;">
+            <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;">Or sign in with</p>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" ng-click="loginWithOAuth('google')" style="flex: 1; padding: 10px; background: white; color: #333; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                    Google
+                </button>
+                <button type="button" ng-click="loginWithOAuth('facebook')" style="flex: 1; padding: 10px; background: white; color: #333; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                    Facebook
+                </button>
+                <button type="button" ng-click="loginWithOAuth('github')" style="flex: 1; padding: 10px; background: white; color: #333; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                    GitHub
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Demo Login -->
+        <div style="border-top: 1px solid #ddd; padding-top: 30px;">
+            <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 13px;">Quick demo login:</p>
+
+            <button type="button" ng-click="quickLogin('student@tbs.edu', 'password')" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                👨‍🎓 Login as Student
+            </button>
+
+            <button type="button" ng-click="quickLogin('professor@tbs.edu', 'password')" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                🎓 Login as Professor
+            </button>
+
+            <button type="button" ng-click="quickLogin('admin@tbs.edu', 'password')" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                ⚙️ Login as Admin
+            </button>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div style="text-align: center;">
+            <p style="color: #666; margin: 0;">Don't have an account? <a href="javascript:void(0)" ng-click="goToRegister()" style="color: #667eea; text-decoration: none; font-weight: 600;">Sign up here</a></p>
+        </div>
+
+        <!-- Test Credentials Info -->
+        <div style="margin-top: 30px; padding: 15px; background: #f0f4ff; border-radius: 5px; font-size: 12px; color: #555;">
+            <strong>Demo Credentials:</strong><br>
+            <small>
+                Student: student@tbs.edu<br>
+                Professor: professor@tbs.edu<br>
+                Admin: admin@tbs.edu<br>
+                Password: password
+            </small>
+        </div>
+    </div>
+</div>
+

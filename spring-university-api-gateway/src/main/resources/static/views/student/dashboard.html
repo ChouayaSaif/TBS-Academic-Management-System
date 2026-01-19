@@ -1,0 +1,80 @@
+<div class="dashboard-container" style="background: #f5f7fa; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <!-- Navigation Bar -->
+    <nav style="background: white; border-bottom: 1px solid #e0e0e0; padding: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+            <div style="display: flex; align-items: center;">
+                <h2 style="color: #667eea; margin: 0; font-size: 24px;">📚 TBS University</h2>
+            </div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <a ui-sref="student.dashboard" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Dashboard</a>
+                <a ui-sref="student.courses" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Browse Courses</a>
+                <a ui-sref="student.myCourses" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">My Courses</a>
+                <a ui-sref="student.schedule" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Schedule</a>
+                <a ui-sref="student.profile" style="color: #333; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Profile</a>
+                <button ng-click="logout()" style="background: #e74c3c; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 30px 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
+            <!-- Stats Cards -->
+            <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #667eea;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Enrolled Courses</div>
+                <div style="font-size: 32px; font-weight: bold; color: #667eea;">{{student.enrolledCourses ? student.enrolledCourses.length : 0}}</div>
+            </div>
+            <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #27ae60;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Credits Progress ({{totalCredits}}/130)</div>
+                <div style="font-size: 32px; font-weight: bold; color: #27ae60; margin-bottom: 5px;">{{graduationProgress}}%</div>
+                <div style="height: 6px; background: #eee; border-radius: 3px; overflow: hidden;">
+                    <div style="height: 100%; background: #27ae60; width: {{graduationProgress}}%;"></div>
+                </div>
+            </div>
+            <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #f39c12;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">GPA</div>
+                <div style="font-size: 32px; font-weight: bold; color: #f39c12;">{{student.gpa || 'N/A'}}</div>
+            </div>
+            <div style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 4px solid #9b59b6;">
+                <div style="font-size: 14px; color: #666; margin-bottom: 10px;">Semester</div>
+                <div style="font-size: 32px; font-weight: bold; color: #9b59b6;">{{student.semester || 'Fall 2026'}}</div>
+            </div>
+        </div>
+
+        <!-- Welcome Message -->
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 10px; margin-bottom: 30px;">
+            <h1 style="margin: 0; font-size: 28px; margin-bottom: 10px;">Welcome, {{user.name}}!</h1>
+            <p style="margin: 0; font-size: 16px; opacity: 0.9;">Manage your courses, check your schedule, and track your academic progress.</p>
+        </div>
+
+        <!-- Enrolled Courses -->
+        <h2 style="color: #333; margin-bottom: 20px;">Your Enrolled Courses</h2>
+        <div style="background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+            <div ng-if="enrolledCourses.length === 0" style="padding: 40px; text-align: center; color: #666;">
+                <p>You are not enrolled in any courses yet. <a ui-sref="student.courses" style="color: #667eea; text-decoration: none; font-weight: 600;">Browse available courses</a></p>
+            </div>
+            <div ng-if="enrolledCourses.length > 0" style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa; border-bottom: 2px solid #e0e0e0;">
+                            <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Code</th>
+                            <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Course</th>
+                            <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Instructor</th>
+                            <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Credits</th>
+                            <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Schedule</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="course in enrolledCourses" style="border-bottom: 1px solid #e0e0e0; transition: background 0.3s;">
+                            <td style="padding: 15px; color: #667eea; font-weight: 600;">{{course.code}}</td>
+                            <td style="padding: 15px; color: #333;">{{course.name}}</td>
+                            <td style="padding: 15px; color: #666;">{{course.professorName}}</td>
+                            <td style="padding: 15px; color: #333; font-weight: 500;">{{course.credits}}</td>
+                            <td style="padding: 15px; color: #666;">{{course.schedule}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

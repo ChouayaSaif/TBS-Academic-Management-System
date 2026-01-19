@@ -1,0 +1,80 @@
+<div class="container">
+    <h2>
+        <span class="fa" ng-class="$ctrl.isEdit ? 'fa-edit' : 'fa-user-plus'"></span>
+        {{$ctrl.isEdit ? 'Edit Student' : 'Register New Student'}}
+    </h2>
+
+    <div ng-if="$ctrl.loading" class="text-center my-4">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+        <p>{{$ctrl.isEdit ? 'Loading student data...' : 'Processing...'}}</p>
+    </div>
+
+    <div ng-if="$ctrl.error" class="alert alert-danger">
+        <span class="fa fa-exclamation-triangle"></span> {{$ctrl.error}}
+    </div>
+
+    <div ng-if="$ctrl.success" class="alert alert-success">
+        <span class="fa fa-check-circle"></span> {{$ctrl.success}}
+    </div>
+
+    <form ng-submit="$ctrl.submitForm()" ng-if="!$ctrl.loading || $ctrl.error" class="needs-validation">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <span class="fa fa-user"></span> Student Information
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name *</label>
+                        <input type="text" class="form-control" id="firstName"
+                               ng-model="$ctrl.student.firstName" required minlength="2">
+                        <div class="form-text">Enter student's first name</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name *</label>
+                        <input type="text" class="form-control" id="lastName"
+                               ng-model="$ctrl.student.lastName" required minlength="2">
+                        <div class="form-text">Enter student's last name</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="studentId" class="form-label">Student ID *</label>
+                        <input type="text" class="form-control" id="studentId"
+                               ng-model="$ctrl.student.studentId" required
+                               pattern="[A-Za-z0-9]+" ng-disabled="$ctrl.isEdit">
+                        <div class="form-text">Unique student identifier (e.g., STU001)</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email"
+                               ng-model="$ctrl.student.email" required>
+                        <div class="form-text">University email address</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="department" class="form-label">Department *</label>
+                        <select class="form-select" id="department"
+                                ng-model="$ctrl.student.department" required>
+                            <option value="">Select Department</option>
+                            <option ng-repeat="dept in $ctrl.departments" value="{{dept}}">{{dept}}</option>
+                        </select>
+                        <div class="form-text">Select student's department</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" ng-disabled="$ctrl.loading">
+                    <span class="fa fa-save"></span> {{$ctrl.isEdit ? 'Update' : 'Register'}}
+                </button>
+                <button type="button" class="btn btn-secondary ms-2" ng-click="$ctrl.cancel()">
+                    <span class="fa fa-times"></span> Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

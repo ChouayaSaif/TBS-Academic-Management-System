@@ -1,0 +1,114 @@
+<div class="dashboard-container" style="background: #f5f7fa; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <!-- Navigation Bar -->
+    <nav style="background: #2c3e50; padding: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+            <div style="display: flex; align-items: center;">
+                <h2 style="color: white; margin: 0; font-size: 24px;">⚙️ Admin Portal</h2>
+            </div>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <a ui-sref="admin" style="color: #bdc3c7; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Dashboard</a>
+                <a ui-sref="admin.courses" style="color: #bdc3c7; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Courses</a>
+                <a ui-sref="admin.students" style="color: #bdc3c7; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Students</a>
+                <a ui-sref="admin.professors" style="color: #3498db; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px; background: rgba(255,255,255,0.1);">Professors</a>
+                <a ui-sref="admin.reports" style="color: #bdc3c7; text-decoration: none; font-weight: 500; padding: 8px 15px; border-radius: 5px;">Reports</a>
+                <button ng-click="logout()" style="background: #c0392b; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 30px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="color: #333; margin: 0;">Faculty Management</h2>
+            <button ng-click="showAddForm = true" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: 600;">
+                + Add New Professor
+            </button>
+        </div>
+
+        <div ng-if="message" class="alert" ng-class="'alert-' + message.type" style="margin-bottom: 20px; padding: 15px; border-radius: 5px;"
+             ng-style="message.type === 'success' ? {'background': '#d4edda', 'color': '#155724'} : {'background': '#f8d7da', 'color': '#721c24'}">
+            {{message.text}}
+        </div>
+
+        <!-- Add Professor Form -->
+        <div ng-if="showAddForm" style="background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; border-left: 5px solid #27ae60;">
+            <h3 style="margin-top: 0; margin-bottom: 20px; color: #333;">Add New Faculty Member</h3>
+            <form ng-submit="addProfessor()">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Full Name</label>
+                        <input type="text" ng-model="newProfessor.name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email</label>
+                        <input type="email" ng-model="newProfessor.email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Department</label>
+                        <select ng-model="newProfessor.department" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            <option ng-repeat="dept in departments" value="{{dept}}">{{dept}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="text-align: right;">
+                    <button type="button" ng-click="showAddForm = false" style="background: #e0e0e0; color: #333; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">Cancel</button>
+                    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add Professor</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Professors List -->
+        <div style="background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f8f9fa; border-bottom: 2px solid #e0e0e0;">
+                        <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Name</th>
+                        <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Email</th>
+                        <th style="padding: 15px; text-align: left; color: #333; font-weight: 600;">Department</th>
+                        <th style="padding: 15px; text-align: center; color: #333; font-weight: 600;">Courses</th>
+                        <th style="padding: 15px; text-align: center; color: #333; font-weight: 600;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="prof in professors" style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 15px; font-weight: 600; color: #2c3e50;">{{prof.name}}</td>
+                        <td style="padding: 15px; color: #666;">{{prof.email}}</td>
+                        <td style="padding: 15px;">{{prof.department}}</td>
+                        <td style="padding: 15px; text-align: center;">{{getProfessorCourses(prof).length}}</td>
+                        <td style="padding: 15px; text-align: center;">
+                            <button ng-click="editProfessor(prof)" style="background: #f39c12; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">Edit</button>
+                            <button ng-click="deleteProfessor(prof.id)" style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Edit Modal -->
+        <div ng-if="editingProfessor" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100;">
+            <div style="background: white; width: 500px; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+                <h3 style="margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Edit Professor</h3>
+                <form ng-submit="saveProfessor()">
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Name</label>
+                        <input type="text" ng-model="editingProfessor.name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email</label>
+                        <input type="email" ng-model="editingProfessor.email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <!-- Simplified -->
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button type="button" ng-click="cancelEdit()" style="background: #e0e0e0; color: #333; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px;">Cancel</button>
+                        <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,37 @@
+<div class="login-container" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="login-card" style="background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); padding: 50px; max-width: 450px; width: 100%; text-align: center;">
+        <div style="margin-bottom: 30px;">
+            <div style="width: 80px; height: 80px; background: #e8f0fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <span style="font-size: 40px;">✉️</span>
+            </div>
+            <h1 style="color: #333; margin-bottom: 10px; font-size: 24px;">Verify Your Email</h1>
+            <p style="color: #666; font-size: 16px;">We've sent a verification code to <br><strong>{{email}}</strong></p>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <input type="text" ng-model="verificationCode" placeholder="ENTER CODE" style="width: 200px; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px; border: 2px solid #ddd; border-radius: 10px; text-transform: uppercase;">
+        </div>
+
+        <div ng-if="error" class="alert alert-danger" style="margin-bottom: 20px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px;">
+            {{error}}
+        </div>
+
+        <div ng-if="success" class="alert alert-success" style="margin-bottom: 20px; padding: 10px; background: #d4edda; color: #155724; border-radius: 5px;">
+            {{success}}
+        </div>
+
+        <button ng-click="verify()" ng-disabled="loading || !verificationCode" class="btn btn-primary" style="width: 100%; padding: 12px; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 15px;">
+            {{loading ? 'Verifying...' : 'Verify Email'}}
+        </button>
+
+        <p style="color: #666; font-size: 14px;">
+            Didn't receive the code?
+            <a href="javascript:void(0)" ng-click="resendCode()" style="color: #667eea; text-decoration: none; font-weight: 600;">Resend</a>
+        </p>
+
+        <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+            <a href="javascript:void(0)" ng-click="goToLogin()" style="color: #999; text-decoration: none; font-size: 14px;">Back to Login</a>
+        </div>
+    </div>
+</div>
+

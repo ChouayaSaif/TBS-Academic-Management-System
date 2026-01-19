@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="universityApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBS University - Academic Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        [ui-view] {
+            display: block;
+            min-height: 100vh;
+        }
+
+        a[ui-sref-active="active"] {
+            background: rgba(102, 126, 234, 0.1) !important;
+            border-bottom: 3px solid #667eea !important;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav > div {
+                flex-direction: column;
+            }
+
+            [style*="display: grid"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            [style*="max-width: 1200px"] {
+                padding: 15px 10px !important;
+            }
+
+            h1 {
+                font-size: 24px !important;
+            }
+
+            h2 {
+                font-size: 20px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div ui-view></div>
+
+    <!-- Scripts -->
+    <script src="scripts/app.js"></script>
+</body>
+</html>
