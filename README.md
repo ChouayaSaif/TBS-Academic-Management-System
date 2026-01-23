@@ -86,5 +86,5 @@ You can build the Docker images and run the entire system using the provided scr
 *   **Profile Image Upload**: Users can update their profile images directly.
 *   **Reports**: Enrollment statistics and department performance.
 
-<img width="1242" height="435" alt="chart" src="https://github.com/user-attachments/assets/776de26b-dfff-4725-8ae5-1eb27afc80fb" />
+<img width="1330" height="835" alt="dash" src="https://github.com/user-attachments/assets/cc2df18e-1678-4cdb-b8e7-a93f93369db8" />
 
