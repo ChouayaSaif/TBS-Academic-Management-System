@@ -12,6 +12,7 @@ This project is organized as a set of microservices:
 *   **Students Service**: Manages student profiles, enrollments, and academic records.
 *   **Professors Service**: Manages professor profiles, course assignments, and schedules.
 *   **Exams Service**: Handles exam scheduling and grading.
+*   **Admin Service**: Manages everything.
 *   **GenAI Service**: Provides AI-powered features for the university portal.
 *   **Admin Server**: Spring Boot Admin for monitoring and managing the microservices.
 
@@ -84,3 +85,6 @@ You can build the Docker images and run the entire system using the provided scr
 *   **Admin Portal**: Overview of the system, reports, and management.
 *   **Profile Image Upload**: Users can update their profile images directly.
 *   **Reports**: Enrollment statistics and department performance.
+
+<img width="1242" height="435" alt="chart" src="https://github.com/user-attachments/assets/776de26b-dfff-4725-8ae5-1eb27afc80fb" />
+
